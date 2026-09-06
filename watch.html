@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch & Download Movie - HelaFlix</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #141414; 
+            color: #fff; 
+            margin: 0; 
+            padding: 20px; 
+            text-align: center; 
+        }
+        .container { 
+            max-width: 800px; 
+            margin: auto; 
+            background: #1f1f1f; 
+            padding: 20px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.8); 
+        }
+        video { 
+            width: 100%; 
+            max-height: 450px; 
+            background: #000; 
+            border-radius: 5px; 
+            outline: none; 
+        }
+        .info-box { 
+            text-align: left; 
+            background: #2a2a2a; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin: 20px 0; 
+        }
+        .btn-group { 
+            margin-top: 20px; 
+        }
+        .btn { 
+            display: inline-block; 
+            background: #0088cc; 
+            color: white; 
+            padding: 12px 25px; 
+            text-decoration: none; 
+            border-radius: 5px; 
+            font-weight: bold; 
+            margin: 5px; 
+            transition: 0.3s;
+        }
+        .btn-download { background: #e50914; }
+        .btn:hover { opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 id="movie-title">🎬 Movie Name (720p)</h1>
+
+        <!-- Video Player -->
+        <video id="movie-video" controls poster="">
+            <source id="video-source" src="" type="video/mp4">
+            ඔබේ බ්‍රව්සරය වීඩියෝ ධාවනයට සහය නොදක්වයි.
+        </video>
+
+        <div class="info-box">
+            <p><strong>ප්‍රමාණය (Size):</strong> 1.69 GB</p>
+            <p><strong>විභේදනය (Resolution):</strong> 1280x536</p>
+        </div>
+
+        <div class="btn-group">
+            <a id="download-btn" href="#" class="btn btn-download" download>📥 Download Movie</a>
+            <a href="https://t.me/YourChannel" class="btn" target="_blank">📢 Join Telegram Channel</a>
+        </div>
+    </div>
+
+    <script>
+        // URL එකෙන් ලින්ක් එක ලබාගැනීම (උදා: watch.html?url=VIDEO_LINK)
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('url');
+        const movieTitle = urlParams.get('title');
+
+        if (videoUrl) {
+            document.getElementById('video-source').src = videoUrl;
+            document.getElementById('download-btn').href = videoUrl;
+            document.getElementById('movie-video').load();
+        }
+
+        if (movieTitle) {
+            document.getElementById('movie-title').innerText = decodeURIComponent(movieTitle);
+            document.document.title = decodeURIComponent(movieTitle) + " - HelaFlix";
+        }
+    </script>
+
+</body>
+</html>
