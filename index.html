@@ -3,98 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelaFlix - Movies & TV Shows</title>
+    <title id="page-title">Watch & Download - HelaFlix</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
-            background: #141414; 
-            color: #fff; 
+            background: #f0f2f5; 
+            color: #333; 
             margin: 0; 
-            padding: 20px; 
+            padding: 40px 20px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 1px solid #333;
-            margin-bottom: 30px;
-        }
-        h1 { color: #e50914; margin: 0; }
-        .movie-container {
-            max-width: 1000px;
-            margin: auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        .main-container {
+            display: flex;
+            flex-wrap: wrap;
             gap: 20px;
-            padding: 10px;
+            max-width: 1050px;
+            width: 100%;
+            justify-content: center;
         }
-        .movie-card {
-            background: #1f1f1f;
+        /* වම් පැත්තේ වීඩියෝ කොටස */
+        .video-box {
+            flex: 1;
+            min-width: 500px;
+            background: #000;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: 0.3s;
-            text-align: center;
-            padding-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .movie-card:hover {
-            transform: scale(1.05);
+        video { 
+            width: 100%; 
+            max-height: 480px; 
+            outline: none; 
         }
-        .movie-title {
+        /* දකුණු පැත්තේ පැනල් කොටස */
+        .sidebar {
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .card h3 {
+            margin-top: 0;
             font-size: 16px;
-            font-weight: bold;
-            margin: 15px 10px 10px 10px;
-            color: #fff;
+            color: #111;
+            word-break: break-all;
+        }
+        .card p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #555;
         }
         .btn {
-            display: inline-block;
-            background: #e50914;
-            color: white;
-            padding: 8px 20px;
+            display: block;
+            width: 100%;
+            padding: 10px 0;
+            text-align: center;
             text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
+            border-radius: 5px;
             font-weight: bold;
+            font-size: 15px;
+            margin-top: 15px;
+            box-sizing: border-box;
+            transition: 0.2s;
+        }
+        .btn-download {
+            background: #007bff;
+            color: white;
+        }
+        .btn-download:hover { background: #0056b3; }
+        
+        .btn-copy {
+            background: #007bff;
+            color: white;
             margin-top: 10px;
         }
-        .btn:hover { background: #b20710; }
+        .btn-copy:hover { background: #0056b3; }
+
+        .btn-telegram {
+            background: #8a2be2;
+            color: white;
+        }
+        .btn-telegram:hover { background: #6a1b9a; }
+        
+        .tg-text {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>🎬 HelaFlix Movies</h1>
-        <p>නරඹන්න සහ ඩවුන්ලෝඩ් කරන්න</p>
-    </header>
+    <div class="main-container">
+        
+        <!-- වම් පැත්ත: වීඩියෝ ප්ලේයර් එක -->
+        <div class="video-box">
+            <video id="movie-video" controls>
+                <source id="video-source" src="" type="video/mp4">
+                ඔබේ බ්‍රව්සරය වීඩියෝ ධාවනයට සහය නොදක්වයි.
+            </video>
+        </div>
 
-    <div class="movie-container" id="movie-list">
-        <!-- මෙතනට ඔයාගේ ෆිල්ම්ස් ඔටෝ ඇඩ් වෙයි -->
+        <!-- දකුණු පැත්ත: ඩවුන්ලෝඩ් සහ ටෙලිග්‍රාම් කාඩ් -->
+        <div class="sidebar">
+            
+            <!-- උඩ කාඩ් එක: ෆිල්ම් විස්තර සහ ඩවුන්ලෝඩ් -->
+            <div class="card">
+                <h3 id="movie-title">Title: Loading...</h3>
+                <p><strong>Size:</strong> 1.69 GB</p>
+                <p><strong>Resolution:</strong> 1280x536</p>
+                <a id="download-btn" href="#" class="btn btn-download" download>Download</a>
+                <button onclick="copyLink()" class="btn btn-copy">Copy Link</button>
+            </div>
+
+            <!-- යට කාඩ් එක: ටෙලිග්‍රාම් ජොයින් වෙන්න -->
+            <div class="card">
+                <p class="tg-text">😊 තවත් මේ වගේ මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න</p>
+                <a href="https://t.me/YourChannel" class="btn btn-telegram" target="_blank">Join Telegram Channel</a>
+            </div>
+
+        </div>
+
     </div>
 
     <script>
-        // මෙතැනට ඔයාට ඕන තරම් ෆිල්ම්ස් එකතු කරන්න පුළුවන්!
-        const movies = [
-            {
-                title: "The Wife (2026) 720p",
-                url: "https://lh3.googleusercontent.com/d/1Y-SlyBIRhh70q3K9maR_J4KTOL1s3WNI"
-            },
-            {
-                title: "අලුත් ෆිල්ම් එකේ නම",
-                url: "ඒකේ_Direct_Drive_Link_එක_මෙතනට_දාන්න"
-            }
-        ];
-        const container = document.getElementById('movie-list');
+        // URL එකෙන් ලින්ක් එක සහ නම ලබාගැනීම
+        const urlParams = new URLSearchParams(window.location.search);
+        const videoUrl = urlParams.get('url');
+        const movieTitle = urlParams.get('title');
 
-        movies.forEach(movie => {
-            if(movie.url.includes("googleusercontent.com")) {
-                const card = document.createElement('div');
-                card.className = 'movie-card';
-                card.innerHTML = `
-                    <div class="movie-title">${movie.title}</div>
-                    <a href="watch.html?url=${encodeURIComponent(movie.url)}&title=${encodeURIComponent(movie.title)}" class="btn">Watch / Download</a>
-                `;
-                container.appendChild(card);
-            }
-        });
+        if (videoUrl) {
+            document.getElementById('video-source').src = videoUrl;
+            document.getElementById('movie-video').load();
+            document.getElementById('download-btn').href = videoUrl;
+        }
+
+        if (movieTitle) {
+            const decodedTitle = decodeURIComponent(movieTitle);
+            document.getElementById('movie-title').innerText = "Title: " + decodedTitle;
+            document.getElementById('page-title').innerText = decodedTitle + " - HelaFlix";
+        } else if (videoUrl) {
+            document.getElementById('movie-title').innerText = "Title: Movie File.mp4";
+        }
+
+        // Copy Link බටන් එකේ වැඩ කටයුතු
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href);
+            alert("Link Copied to Clipboard!");
+        }
     </script>
 
 </body>
