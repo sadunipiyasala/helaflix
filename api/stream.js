@@ -15,22 +15,30 @@ export default async function handler(req, res) {
     return res.status(400).send("Video ID is missing");
   }
 
+  if (!BOT_TOKEN || !CHANNEL_ID) {
+    return res.status(500).send("Environment variables BOT_TOKEN or CHANNEL_ID are not set.");
+  }
+
   try {
-    const fileMetaRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getFile?chat_id=${CHANNEL_ID}&message_id=${msgId}`);
+    const telegramApiUrl = `https://api.telegram.org/bot${BOT_TOKEN}/getFile?chat_id=${CHANNEL_ID}&message_id=${msgId}`;
+    const fileMetaRes = await fetch(telegramApiUrl);
     const fileMetaData = await fileMetaRes.json();
 
+    // Telegram එකෙන් එන මුල්ම ප්‍රතිචාරය (Response එක) සයිට් එකේ පෙන්වීම (ප්‍රශ්නය බලාගැනීමට)
     if (!fileMetaData.ok) {
-      return res.status(404).send("Video not found.");
+      return res.status(400).json({
+        error: "Telegram API Error",
+        details: fileMetaData,
+        used_channel: CHANNEL_ID,
+        used_msg_id: msgId
+      });
     }
 
     const filePath = fileMetaData.result.file_path;
     const fileUrl = `https://api.telegram.org/file/bot${BOT_TOKEN}/${filePath}`;
-
-    // ටෙලිග්‍රාම් සර්වර් එකේ සෘජු ලින්ක් එකට රීඩිරෙක්ට් කිරීම (Redirect)
     res.redirect(302, fileUrl);
 
   } catch (err) {
-    console.error(err);
-    res.status(500).send("Internal Server Error");
+    res.status(500).json({ error: "Server Exception", message: err.message });
   }
 }
