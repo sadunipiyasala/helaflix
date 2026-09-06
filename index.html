@@ -3,44 +3,100 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelaFlix - Telegram Streamer</title>
+    <title>HelaFlix - Movies & TV Shows</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
             background: #141414; 
             color: #fff; 
-            text-align: center; 
-            padding: 50px; 
-            margin: 0;
+            margin: 0; 
+            padding: 20px; 
         }
-        .container { 
-            max-width: 600px; 
-            margin: auto; 
-            background: #1f1f1f; 
-            padding: 40px; 
-            border-radius: 10px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7); 
+        header {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 1px solid #333;
+            margin-bottom: 30px;
         }
-        h1 { color: #e50914; margin-bottom: 10px; }
-        p { color: #aaa; font-size: 16px; margin-bottom: 30px; }
-        .btn { 
-            display: inline-block; 
-            background: #e50914; 
-            color: white; 
-            padding: 12px 30px; 
-            text-decoration: none; 
-            border-radius: 5px; 
-            font-weight: bold; 
+        h1 { color: #e50914; margin: 0; }
+        .movie-container {
+            max-width: 1000px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+        .movie-card {
+            background: #1f1f1f;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
             transition: 0.3s;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+        .movie-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 15px 10px 10px 10px;
+            color: #fff;
+        }
+        .btn {
+            display: inline-block;
+            background: #e50914;
+            color: white;
+            padding: 8px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-top: 10px;
         }
         .btn:hover { background: #b20710; }
     </style>
 </head>
 <body>
-    <div class="container">
+
+    <header>
         <h1>🎬 HelaFlix Movies</h1>
-        <p>ඔබගේ Telegram චැනල් එකෙන් චිත්‍රපට පහසුවෙන් නරඹන්න සහ ඩවුන්ලෝඩ් කරන්න.</p>
-        <a href="https://t.me/YourChannel" class="btn" target="_blank">Join Telegram Channel</a>
+        <p>නරඹන්න සහ ඩවුන්ලෝඩ් කරන්න</p>
+    </header>
+
+    <div class="movie-container" id="movie-list">
+        <!-- මෙතනට ඔයාගේ ෆිල්ම්ස් ඔටෝ ඇඩ් වෙයි -->
     </div>
+
+    <script>
+        // මෙතැනට ඔයාට ඕන තරම් ෆිල්ම්ස් එකතු කරන්න පුළුවන්!
+        const movies = [
+            {
+                title: "The Wife (2026) 720p",
+                url: "https://lh3.googleusercontent.com/d/1Y-SlyBIRhh70q3K9maR_J4KTOL1s3WNI"
+            },
+            {
+                title: "Kattalan Sinhala Sub",
+                url: "ඔයාගේ_තව_ෆිල්ම්_ලින්ක්_එකක්_මෙතනට_දාන්න"
+            }
+        ];
+
+        const container = document.getElementById('movie-list');
+
+        movies.forEach(movie => {
+            if(movie.url.includes("googleusercontent.com")) {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <div class="movie-title">${movie.title}</div>
+                    <a href="watch.html?url=${encodeURIComponent(movie.url)}&title=${encodeURIComponent(movie.title)}" class="btn">Watch / Download</a>
+                `;
+                container.appendChild(card);
+            }
+        });
+    </script>
+
 </body>
 </html>
