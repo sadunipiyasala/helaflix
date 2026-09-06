@@ -1,13 +1,18 @@
 <script>
-        // URL එකෙන් Message ID එක සහ නම ලබාගැනීම
         const urlParams = new URLSearchParams(window.location.search);
-        const msgId = urlParams.get('id'); // Telegram Message ID එක
+        const tgUrl = urlParams.get('url'); // සම්පූර්ණ ටෙලිග්‍රාම් ලින්ක් එක සඳහා
+        const msgId = urlParams.get('id');  // හෝ පරණ ක්‍රමයට id එක සඳහා
         const movieTitle = urlParams.get('title');
 
-        if (msgId) {
-            // අපේම Vercel API එක හරහා වීඩියෝ ලින්ක් එක හැදීම
-            const videoStreamUrl = `/api/stream?id=${msgId}`;
-            
+        let videoStreamUrl = "";
+
+        if (tgUrl) {
+            videoStreamUrl = `/api/stream?url=${encodeURIComponent(tgUrl)}`;
+        } else if (msgId) {
+            videoStreamUrl = `/api/stream?id=${msgId}`;
+        }
+
+        if (videoStreamUrl) {
             document.getElementById('video-source').src = videoStreamUrl;
             document.getElementById('movie-video').load();
             document.getElementById('download-btn').href = videoStreamUrl;
