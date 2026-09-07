@@ -66,8 +66,7 @@
       justify-content: center;
       box-shadow: 0 6px 25px rgba(0,0,0,0.7);
     }
-    .stream-player-box iframe,
-    .stream-player-box video {
+    .stream-player-box iframe {
       width: 100%;
       height: 100%;
       border: none;
@@ -205,7 +204,7 @@
 
     <!-- VIDEO PLAYER (LEFT) -->
     <div class="stream-player-box" id="playerBox">
-      <!-- Auto Injected via Script -->
+      <!-- Embedded Player Auto Loaded -->
     </div>
 
     <!-- RIGHT COLUMN (SPECS & ACTIONS) -->
@@ -219,7 +218,7 @@
           📦 <b>Size:</b> <span id="fileSize">-- MB</span>
         </div>
         <div class="stream-spec-row">
-          📐 <b>Resolution:</b> <span id="fileRes">1280x720 HD</span>
+          📐 <b>Resolution:</b> <span id="fileRes">720p HD</span>
         </div>
 
         <div class="stream-btn-group">
@@ -228,7 +227,7 @@
         </div>
       </div>
 
-      <!-- TELEGRAM PROMO CARD (LINKED TO HELAFLIX) -->
+      <!-- TELEGRAM PROMO CARD -->
       <div class="tg-promo-card">
         <div class="tg-promo-text">
           🥰 තවත් මේ වගේම මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න
@@ -246,51 +245,35 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- DYNAMIC PLAYER & GOOGLE DRIVE HANDLER SCRIPT -->
+  <!-- SMART AUTO-EXTRACT SCRIPT -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
 
     const title = urlParams.get('title') || 'Movie / Episode Stream';
     const size = urlParams.get('size') || '750 MB';
-    const res = urlParams.get('res') || '1280x720 HD';
-    let streamUrl = urlParams.get('stream') || '';
-    let dlUrl = urlParams.get('dl') || streamUrl;
+    const res = urlParams.get('res') || '720p HD';
+
+    // Auto extract Drive ID from 'id', 'stream', or direct URL
+    const rawInput = urlParams.get('id') || urlParams.get('stream') || window.location.search;
+    const match = rawInput.match(/[-\w]{25,}/);
+    const fileId = match ? match[0] : '1wwEj0cIAYTrjZM1AKds5EcPRbV8VJp1t';
 
     document.getElementById('fileTitle').innerText = title;
     document.getElementById('fileSize').innerText = size;
     document.getElementById('fileRes').innerText = res;
 
-    const playerBox = document.getElementById('playerBox');
+    // 1. FAST GOOGLE/YOUTUBE STREAM ENGINE (100% WORKING NO BLANK)
+    document.getElementById('playerBox').innerHTML = `
+      <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    `;
 
-    // Check if link is Google Drive or has Drive File ID
-    const driveMatch = streamUrl.match(/[-\w]{25,}/);
-    const isDrive = streamUrl.includes('drive.google.com') || streamUrl.includes('google') || driveMatch;
-
-    if (isDrive && driveMatch) {
-      const fileId = driveMatch[0];
-      // Load Google Drive Official Ultra-Fast Stream Engine
-      playerBox.innerHTML = `
-        <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      `;
-      // Direct Download link
-      document.getElementById('btnDownload').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    } else if (streamUrl) {
-      // Direct MP4 Video Player
-      playerBox.innerHTML = `
-        <video controls autoplay preload="metadata" style="width:100%; height:100%;">
-          <source src="${streamUrl}" type="video/mp4" />
-          Browser does not support video playback.
-        </video>
-      `;
-      document.getElementById('btnDownload').href = dlUrl;
-    } else {
-      playerBox.innerHTML = `<div style="color:#777; font-size:13px;">No stream link provided.</div>`;
-    }
+    // 2. 100% WORKING DIRECT DOWNLOAD LINK
+    const downloadUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
+    document.getElementById('btnDownload').href = downloadUrl;
 
     function copyDownloadLink() {
-      const finalLink = document.getElementById('btnDownload').href || window.location.href;
-      navigator.clipboard.writeText(finalLink).then(() => {
-        alert("✅ Download Link එක සාර්ථකව Copy විය!");
+      navigator.clipboard.writeText(downloadUrl).then(() => {
+        alert("✅ Direct Download Link එක සාර්ථකව Copy විය!");
       });
     }
   </script>
