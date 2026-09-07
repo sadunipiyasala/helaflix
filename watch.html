@@ -19,7 +19,7 @@
       flex-direction: column;
     }
 
-    /* HEADER */
+    /* NAVBAR */
     .stream-nav {
       display: flex;
       justify-content: space-between;
@@ -37,88 +37,91 @@
     }
     .brand-logo span { color: #e50914; }
 
-    /* MAIN CONTAINER */
-    .stream-hub-container {
-      display: flex;
-      gap: 24px;
+    /* THEATER MAIN CONTAINER */
+    .theater-container {
       max-width: 1100px;
       width: 95%;
-      margin: 30px auto;
-      background: #0d0d14;
-      padding: 24px;
-      border-radius: 16px;
-      border: 1px solid #1f1f2e;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      margin: 25px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
       flex: 1;
     }
 
-    /* VIDEO PLAYER BOX (LEFT) */
-    .stream-player-box {
-      flex: 1.6;
-      min-width: 0;
-      background: #000;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid #28283a;
+    /* 1. YOUTUBE-STYLE WIDESCREEN PLAYER (16:9) */
+    .theater-player-box {
+      width: 100%;
       aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #222232;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 6px 25px rgba(0,0,0,0.7);
     }
-    .stream-player-box iframe {
+    .theater-player-box iframe,
+    .theater-player-box video {
       width: 100%;
       height: 100%;
       border: none;
       outline: none;
     }
 
-    /* RIGHT COLUMN */
-    .stream-info-column {
-      flex: 1;
-      min-width: 290px;
+    /* 2. DETAILS & ACTION BAR (BELOW PLAYER) */
+    .theater-info-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #12121a;
+      padding: 20px 24px;
+      border-radius: 14px;
+      border: 1px solid #1f1f2e;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .theater-meta {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 8px;
     }
-
-    /* SPEC CARD */
-    .stream-card {
-      background: #14141e;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #232332;
-    }
-    .stream-file-title {
-      font-size: 15px;
+    .theater-title {
+      font-size: 20px;
       font-weight: 800;
       color: #ffffff;
-      margin-bottom: 14px;
-      line-height: 1.4;
-      word-break: break-all;
+      line-height: 1.3;
     }
-    .stream-spec-row {
+    .theater-specs {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .spec-pill {
       font-size: 13px;
       color: #a0a0b2;
-      margin-bottom: 7px;
+      background: #1c1c28;
+      padding: 4px 10px;
+      border-radius: 6px;
+      border: 1px solid #28283a;
     }
-    .stream-spec-row b { color: #fff; }
+    .spec-pill b { color: #fff; }
 
     /* ACTION BUTTONS */
-    .stream-btn-group {
+    .theater-actions {
       display: flex;
-      gap: 10px;
-      margin-top: 16px;
+      gap: 12px;
     }
-    .btn-stream-action {
-      flex: 1;
+    .btn-action {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      padding: 12px 14px;
+      gap: 8px;
+      padding: 12px 22px;
       border-radius: 8px;
-      font-size: 13.5px;
+      font-size: 14px;
       font-weight: 700;
       text-decoration: none;
       border: none;
@@ -133,34 +136,35 @@
     .btn-blue-dl:hover { background: #0051b3; transform: translateY(-2px); }
 
     .btn-gray-copy {
-      background: #282838;
+      background: #242432;
       color: #ffffff !important;
-      border: 1px solid #3c3c50;
+      border: 1px solid #38384d;
     }
-    .btn-gray-copy:hover { background: #38384d; transform: translateY(-2px); }
+    .btn-gray-copy:hover { background: #323244; transform: translateY(-2px); }
 
-    /* TELEGRAM PROMO CARD */
-    .tg-promo-card {
-      background: #14141e;
-      border-radius: 12px;
-      padding: 20px;
-      border: 1px solid #232332;
-      text-align: center;
+    /* 3. TELEGRAM PROMO BANNER */
+    .theater-tg-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #12121a;
+      padding: 18px 24px;
+      border-radius: 14px;
+      border: 1px solid #1f1f2e;
+      flex-wrap: wrap;
+      gap: 15px;
     }
-    .tg-promo-text {
-      font-size: 13px;
+    .tg-text {
+      font-size: 14px;
       font-weight: 600;
       color: #e0e0f0;
-      margin-bottom: 14px;
-      line-height: 1.5;
     }
-    .btn-tg-join-purple {
-      display: flex;
+    .btn-tg-purple {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      width: 100%;
-      padding: 12px;
+      padding: 12px 24px;
       border-radius: 8px;
       background: linear-gradient(135deg, #8a2be2, #6a0dad);
       color: #ffffff !important;
@@ -170,7 +174,7 @@
       box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
       transition: 0.2s;
     }
-    .btn-tg-join-purple:hover {
+    .btn-tg-purple:hover {
       background: linear-gradient(135deg, #9b40f7, #7b12c7);
       transform: translateY(-2px);
     }
@@ -186,9 +190,11 @@
       margin-top: auto;
     }
 
-    @media (max-width: 850px) {
-      .stream-hub-container { flex-direction: column; padding: 16px; margin: 15px auto; }
-      .stream-info-column { width: 100%; min-width: 100%; }
+    @media (max-width: 768px) {
+      .theater-info-bar, .theater-tg-card { flex-direction: column; align-items: flex-start; }
+      .theater-actions, .btn-tg-purple { width: 100%; }
+      .btn-action { flex: 1; }
+      .theater-title { font-size: 17px; }
     }
   </style>
 </head>
@@ -199,44 +205,42 @@
     <a href="https://helaflix.blogspot.com" class="brand-logo">HELA<span>FLIX</span> STREAM</a>
   </header>
 
-  <!-- STREAM & DOWNLOAD HUB -->
-  <div class="stream-hub-container">
+  <!-- THEATER MAIN WRAPPER -->
+  <div class="theater-container">
 
-    <!-- VIDEO PLAYER (LEFT) -->
-    <div class="stream-player-box" id="playerBox">
-      <!-- Embedded Player Auto Loaded -->
+    <!-- 1. YOUTUBE / NETFLIX WIDESCREEN 16:9 PLAYER -->
+    <div class="theater-player-box" id="playerBox">
+      <!-- High Speed Video Player -->
     </div>
 
-    <!-- RIGHT COLUMN (SPECS & ACTIONS) -->
-    <div class="stream-info-column">
-
-      <!-- SPECS & DOWNLOAD CARD -->
-      <div class="stream-card">
-        <div class="stream-file-title" id="fileTitle">Movie Title Loading...</div>
-        
-        <div class="stream-spec-row">
-          📦 <b>Size:</b> <span id="fileSize">-- MB</span>
-        </div>
-        <div class="stream-spec-row">
-          📐 <b>Resolution:</b> <span id="fileRes">720p HD</span>
-        </div>
-
-        <div class="stream-btn-group">
-          <a href="#" id="btnDownload" class="btn-stream-action btn-blue-dl" target="_blank">Download</a>
-          <button class="btn-stream-action btn-gray-copy" onclick="copyDownloadLink()">Copy Link</button>
+    <!-- 2. DETAILS & DOWNLOAD ACTIONS BAR -->
+    <div class="theater-info-bar">
+      <div class="theater-meta">
+        <h1 class="theater-title" id="fileTitle">Movie Title Loading...</h1>
+        <div class="theater-specs">
+          <span class="spec-pill">📦 <b id="fileSize">-- MB</b></span>
+          <span class="spec-pill">📐 <b id="fileRes">720p HD</b></span>
         </div>
       </div>
 
-      <!-- TELEGRAM PROMO CARD -->
-      <div class="tg-promo-card">
-        <div class="tg-promo-text">
-          🥰 තවත් මේ වගේම මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න
-        </div>
-        <a href="https://t.me/helaflix" class="btn-tg-join-purple" target="_blank">
-          <i class="fa-brands fa-telegram"></i> Join Telegram Channel
+      <div class="theater-actions">
+        <a href="#" id="btnDownload" class="btn-action btn-blue-dl" target="_blank">
+          <i class="fa-solid fa-download"></i> Download
         </a>
+        <button class="btn-action btn-gray-copy" onclick="copyDownloadLink()">
+          <i class="fa-solid fa-link"></i> Copy Link
+        </button>
       </div>
+    </div>
 
+    <!-- 3. TELEGRAM COMMUNITY CARD -->
+    <div class="theater-tg-card">
+      <div class="tg-text">
+        🥰 තවත් මේ වගේම මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න
+      </div>
+      <a href="https://t.me/helaflix" class="btn-tg-purple" target="_blank">
+        <i class="fa-brands fa-telegram"></i> Join Telegram Channel
+      </a>
     </div>
 
   </div>
@@ -245,15 +249,15 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- SMART AUTO-EXTRACT SCRIPT -->
+  <!-- DYNAMIC PARSER SCRIPT -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
 
     const title = urlParams.get('title') || 'Movie / Episode Stream';
     const size = urlParams.get('size') || '750 MB';
-    const res = urlParams.get('res') || '720p HD';
+    const res = urlParams.get('res') || '1280x720 HD';
 
-    // Auto extract Drive ID from 'id', 'stream', or direct URL
+    // Extract File ID
     const rawInput = urlParams.get('id') || urlParams.get('stream') || window.location.search;
     const match = rawInput.match(/[-\w]{25,}/);
     const fileId = match ? match[0] : '1wwEj0cIAYTrjZM1AKds5EcPRbV8VJp1t';
@@ -262,12 +266,12 @@
     document.getElementById('fileSize').innerText = size;
     document.getElementById('fileRes').innerText = res;
 
-    // 1. FAST GOOGLE/YOUTUBE STREAM ENGINE (100% WORKING NO BLANK)
+    // Load Widescreen Cinema Player
     document.getElementById('playerBox').innerHTML = `
       <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
     `;
 
-    // 2. 100% WORKING DIRECT DOWNLOAD LINK
+    // 100% Working Direct Download link
     const downloadUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
     document.getElementById('btnDownload').href = downloadUrl;
 
