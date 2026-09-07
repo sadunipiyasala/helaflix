@@ -91,7 +91,7 @@
       font-size: 20px;
       font-weight: 800;
       color: #ffffff;
-      line-height: 1.3;
+      line-height: 1.35;
     }
     .theater-specs {
       display: flex;
@@ -212,7 +212,7 @@
     <!-- 2. DETAILS & DOWNLOAD ACTIONS -->
     <div class="theater-info-bar">
       <div class="theater-meta">
-        <h1 class="theater-title" id="fileTitle">Movie Title</h1>
+        <h1 class="theater-title" id="fileTitle">Movie Title Loading...</h1>
         <div class="theater-specs">
           <span class="spec-pill">📦 <b id="fileSize">-- MB</b></span>
           <span class="spec-pill">📐 <b id="fileRes">720p HD</b></span>
@@ -245,37 +245,43 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- 100% BULLETPROOF DRIVE ID SCRIPT -->
+  <!-- 100% ROBUST UNICODE & DRIVE ID SCRIPT -->
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
+    // Robust URL Decoder function
+    function getCleanParam(name) {
+      const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+      const results = regex.exec(window.location.href);
+      if (!results || !results[2]) return '';
+      try {
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+      } catch (e) {
+        return unescape(results[2].replace(/\+/g, ' '));
+      }
+    }
 
-    // Get Drive File ID strictly
-    let fileId = urlParams.get('id') || '';
+    // 1. Get Drive File ID strictly
+    let fileId = getCleanParam('id');
     if (!fileId) {
       const match = window.location.href.match(/id=([a-zA-Z0-9_-]+)/);
       if (match) fileId = match[1];
     }
 
-    // Get & Decode Title
-    let rawTitle = urlParams.get('title') || 'Movie Stream';
-    document.getElementById('fileTitle').innerText = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
+    // 2. Get Sinhala Title & Specs safely
+    let titleText = getCleanParam('title') || 'Movie Stream';
+    let sizeText = getCleanParam('size') || '296 MB';
+    let resText = getCleanParam('res') || '720p HD';
 
-    // Get & Decode Size & Res
-    let rawSize = urlParams.get('size') || '750 MB';
-    document.getElementById('fileSize').innerText = decodeURIComponent(rawSize.replace(/\+/g, ' '));
+    document.getElementById('fileTitle').innerText = titleText;
+    document.getElementById('fileSize').innerText = sizeText;
+    document.getElementById('fileRes').innerText = resText;
 
-    let rawRes = urlParams.get('res') || '720p HD';
-    document.getElementById('fileRes').innerText = decodeURIComponent(rawRes.replace(/\+/g, ' '));
-
-    // Inject Player
+    // 3. Inject Google Drive Player
     if (fileId) {
       document.getElementById('playerBox').innerHTML = `
         <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
       `;
       const directDl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
       document.getElementById('btnDownload').href = directDl;
-    } else {
-      document.getElementById('playerBox').innerHTML = `<div style="color:#aaa; text-align:center; padding:40px;">No video ID provided.</div>`;
     }
 
     function copyDownloadLink() {
