@@ -66,10 +66,11 @@
       justify-content: center;
       box-shadow: 0 6px 25px rgba(0,0,0,0.7);
     }
+    .stream-player-box iframe,
     .stream-player-box video {
       width: 100%;
       height: 100%;
-      object-fit: contain;
+      border: none;
       outline: none;
     }
 
@@ -203,11 +204,8 @@
   <div class="stream-hub-container">
 
     <!-- VIDEO PLAYER (LEFT) -->
-    <div class="stream-player-box">
-      <video id="videoPlayer" controls preload="metadata">
-        <source id="videoSource" src="" type="video/mp4" />
-        ඔබගේ Browser එක මෙම Video Player එකට Support නොකරයි.
-      </video>
+    <div class="stream-player-box" id="playerBox">
+      <!-- Auto Injected via Script -->
     </div>
 
     <!-- RIGHT COLUMN (SPECS & ACTIONS) -->
@@ -221,7 +219,7 @@
           📦 <b>Size:</b> <span id="fileSize">-- MB</span>
         </div>
         <div class="stream-spec-row">
-          📐 <b>Resolution:</b> <span id="fileRes">1280x720 (HD)</span>
+          📐 <b>Resolution:</b> <span id="fileRes">1280x720 HD</span>
         </div>
 
         <div class="stream-btn-group">
@@ -248,31 +246,49 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- DYNAMIC URL PARAMETER HANDLER SCRIPT -->
+  <!-- DYNAMIC PLAYER & GOOGLE DRIVE HANDLER SCRIPT -->
   <script>
     const urlParams = new URLSearchParams(window.location.search);
 
     const title = urlParams.get('title') || 'Movie / Episode Stream';
     const size = urlParams.get('size') || '750 MB';
     const res = urlParams.get('res') || '1280x720 HD';
-    const streamUrl = urlParams.get('stream') || '';
-    const dlUrl = urlParams.get('dl') || streamUrl;
+    let streamUrl = urlParams.get('stream') || '';
+    let dlUrl = urlParams.get('dl') || streamUrl;
 
     document.getElementById('fileTitle').innerText = title;
     document.getElementById('fileSize').innerText = size;
     document.getElementById('fileRes').innerText = res;
-    document.getElementById('btnDownload').href = dlUrl;
 
-    if (streamUrl) {
-      const player = document.getElementById('videoPlayer');
-      const source = document.getElementById('videoSource');
-      // If direct stream URL
-      source.src = streamUrl;
-      player.load();
+    const playerBox = document.getElementById('playerBox');
+
+    // Check if link is Google Drive or has Drive File ID
+    const driveMatch = streamUrl.match(/[-\w]{25,}/);
+    const isDrive = streamUrl.includes('drive.google.com') || streamUrl.includes('google') || driveMatch;
+
+    if (isDrive && driveMatch) {
+      const fileId = driveMatch[0];
+      // Load Google Drive Official Ultra-Fast Stream Engine
+      playerBox.innerHTML = `
+        <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      `;
+      // Direct Download link
+      document.getElementById('btnDownload').href = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    } else if (streamUrl) {
+      // Direct MP4 Video Player
+      playerBox.innerHTML = `
+        <video controls autoplay preload="metadata" style="width:100%; height:100%;">
+          <source src="${streamUrl}" type="video/mp4" />
+          Browser does not support video playback.
+        </video>
+      `;
+      document.getElementById('btnDownload').href = dlUrl;
+    } else {
+      playerBox.innerHTML = `<div style="color:#777; font-size:13px;">No stream link provided.</div>`;
     }
 
     function copyDownloadLink() {
-      const finalLink = dlUrl || window.location.href;
+      const finalLink = document.getElementById('btnDownload').href || window.location.href;
       navigator.clipboard.writeText(finalLink).then(() => {
         alert("✅ Download Link එක සාර්ථකව Copy විය!");
       });
