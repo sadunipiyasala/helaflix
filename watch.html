@@ -1,176 +1,283 @@
 <!DOCTYPE html>
 <html lang="si">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">Watch & Download - HelaFlix</title>
-    <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            background: #f0f2f5; 
-            color: #333; 
-            margin: 0; 
-            padding: 40px 20px; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .main-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            max-width: 1050px;
-            width: 100%;
-            justify-content: center;
-        }
-        .video-box {
-            flex: 1;
-            min-width: 500px;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        video { 
-            width: 100%; 
-            max-height: 480px; 
-            outline: none; 
-        }
-        .sidebar {
-            width: 320px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .card {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            text-align: left;
-        }
-        .card h3 {
-            margin-top: 0;
-            font-size: 16px;
-            color: #111;
-            word-break: break-all;
-        }
-        .card p {
-            margin: 8px 0;
-            font-size: 14px;
-            color: #555;
-        }
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 15px;
-            margin-top: 15px;
-            box-sizing: border-box;
-            transition: 0.2s;
-        }
-        .btn-download {
-            background: #007bff;
-            color: white;
-        }
-        .btn-download:hover { background: #0056b3; }
-        
-        .btn-copy {
-            background: #007bff;
-            color: white;
-            margin-top: 10px;
-            border: none;
-            cursor: pointer;
-        }
-        .btn-copy:hover { background: #0056b3; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watch & Download - HelaFlix Stream</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
-        .btn-telegram {
-            background: #8a2be2;
-            color: white;
-        }
-        .btn-telegram:hover { background: #6a1b9a; }
-        
-        .tg-text {
-            font-size: 13px;
-            color: #444;
-            margin-bottom: 10px;
-            line-height: 1.4;
-        }
-    </style>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: #08080a;
+      color: #ffffff;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* HEADER */
+    .stream-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 5%;
+      background: rgba(10, 10, 14, 0.98);
+      border-bottom: 1px solid #1a1a24;
+    }
+    .brand-logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #fff;
+      text-decoration: none;
+    }
+    .brand-logo span { color: #e50914; }
+
+    /* MAIN CONTAINER */
+    .stream-hub-container {
+      display: flex;
+      gap: 24px;
+      max-width: 1100px;
+      width: 95%;
+      margin: 30px auto;
+      background: #0d0d14;
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #1f1f2e;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+      flex: 1;
+    }
+
+    /* VIDEO PLAYER BOX (LEFT) */
+    .stream-player-box {
+      flex: 1.6;
+      min-width: 0;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #28283a;
+      aspect-ratio: 16 / 9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 25px rgba(0,0,0,0.7);
+    }
+    .stream-player-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      outline: none;
+    }
+
+    /* RIGHT COLUMN */
+    .stream-info-column {
+      flex: 1;
+      min-width: 290px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* SPEC CARD */
+    .stream-card {
+      background: #14141e;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #232332;
+    }
+    .stream-file-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 14px;
+      line-height: 1.4;
+      word-break: break-all;
+    }
+    .stream-spec-row {
+      font-size: 13px;
+      color: #a0a0b2;
+      margin-bottom: 7px;
+    }
+    .stream-spec-row b { color: #fff; }
+
+    /* ACTION BUTTONS */
+    .stream-btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .btn-stream-action {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-blue-dl {
+      background: #0070f3;
+      color: #ffffff !important;
+      box-shadow: 0 4px 15px rgba(0, 112, 243, 0.4);
+    }
+    .btn-blue-dl:hover { background: #0051b3; transform: translateY(-2px); }
+
+    .btn-gray-copy {
+      background: #282838;
+      color: #ffffff !important;
+      border: 1px solid #3c3c50;
+    }
+    .btn-gray-copy:hover { background: #38384d; transform: translateY(-2px); }
+
+    /* TELEGRAM PROMO CARD */
+    .tg-promo-card {
+      background: #14141e;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid #232332;
+      text-align: center;
+    }
+    .tg-promo-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #e0e0f0;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .btn-tg-join-purple {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #8a2be2, #6a0dad);
+      color: #ffffff !important;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+      transition: 0.2s;
+    }
+    .btn-tg-join-purple:hover {
+      background: linear-gradient(135deg, #9b40f7, #7b12c7);
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #040406;
+      color: #777;
+      font-size: 12px;
+      border-top: 1px solid #14141a;
+      margin-top: auto;
+    }
+
+    @media (max-width: 850px) {
+      .stream-hub-container { flex-direction: column; padding: 16px; margin: 15px auto; }
+      .stream-info-column { width: 100%; min-width: 100%; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="main-container">
+  <!-- NAVBAR -->
+  <header class="stream-nav">
+    <a href="https://helaflix.blogspot.com" class="brand-logo">HELA<span>FLIX</span> STREAM</a>
+  </header>
+
+  <!-- STREAM & DOWNLOAD HUB -->
+  <div class="stream-hub-container">
+
+    <!-- VIDEO PLAYER (LEFT) -->
+    <div class="stream-player-box">
+      <video id="videoPlayer" controls preload="metadata">
+        <source id="videoSource" src="" type="video/mp4" />
+        ඔබගේ Browser එක මෙම Video Player එකට Support නොකරයි.
+      </video>
+    </div>
+
+    <!-- RIGHT COLUMN (SPECS & ACTIONS) -->
+    <div class="stream-info-column">
+
+      <!-- SPECS & DOWNLOAD CARD -->
+      <div class="stream-card">
+        <div class="stream-file-title" id="fileTitle">Movie Title Loading...</div>
         
-        <!-- වම් පැත්ත: වීඩියෝ ප්ලේයර් එක -->
-        <div class="video-box">
-            <video id="movie-video" controls>
-                <source id="video-source" src="" type="video/mp4">
-                ඔබේ බ්‍රව්සරය වීඩියෝ ධාවනයට සහය නොදක්වයි.
-            </video>
+        <div class="stream-spec-row">
+          📦 <b>Size:</b> <span id="fileSize">-- MB</span>
+        </div>
+        <div class="stream-spec-row">
+          📐 <b>Resolution:</b> <span id="fileRes">1280x720 (HD)</span>
         </div>
 
-        <!-- දකුණු පැත්ත: ඩවුන්ලෝඩ් සහ ටෙලිග්‍රාම් කාඩ් -->
-        <div class="sidebar">
-            
-            <div class="card">
-                <h3 id="movie-title">Title: Loading...</h3>
-                <p><strong>Size:</strong> 1.69 GB</p>
-                <p><strong>Resolution:</strong> 1280x536</p>
-                <a id="download-btn" href="#" class="btn btn-download" download>Download</a>
-                <button onclick="copyLink()" class="btn btn-copy">Copy Link</button>
-            </div>
-
-            <div class="card">
-                <p class="tg-text">😊 තවත් මේ වගේ මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න</p>
-                <a href="https://t.me/YourChannel" class="btn btn-telegram" target="_blank">Join Telegram Channel</a>
-            </div>
-
+        <div class="stream-btn-group">
+          <a href="#" id="btnDownload" class="btn-stream-action btn-blue-dl" target="_blank">Download</a>
+          <button class="btn-stream-action btn-gray-copy" onclick="copyDownloadLink()">Copy Link</button>
         </div>
+      </div>
+
+      <!-- TELEGRAM PROMO CARD (LINKED TO HELAFLIX) -->
+      <div class="tg-promo-card">
+        <div class="tg-promo-text">
+          🥰 තවත් මේ වගේම මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න
+        </div>
+        <a href="https://t.me/helaflix" class="btn-tg-join-purple" target="_blank">
+          <i class="fa-brands fa-telegram"></i> Join Telegram Channel
+        </a>
+      </div>
 
     </div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const tgUrl = urlParams.get('url');
-        const msgId = urlParams.get('id');
-        const movieTitle = urlParams.get('title');
+  </div>
 
-        let videoStreamUrl = "";
+  <footer>
+    <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
+  </footer>
 
-        if (tgUrl) {
-            videoStreamUrl = `/api/stream?url=${encodeURIComponent(tgUrl)}`;
-        } else if (msgId) {
-            videoStreamUrl = `/api/stream?id=${msgId}`;
-        }
+  <!-- DYNAMIC URL PARAMETER HANDLER SCRIPT -->
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
 
-        if (videoStreamUrl) {
-            document.getElementById('video-source').src = videoStreamUrl;
-            document.getElementById('movie-video').load();
-            document.getElementById('download-btn').href = videoStreamUrl;
-        }
+    const title = urlParams.get('title') || 'Movie / Episode Stream';
+    const size = urlParams.get('size') || '750 MB';
+    const res = urlParams.get('res') || '1280x720 HD';
+    const streamUrl = urlParams.get('stream') || '';
+    const dlUrl = urlParams.get('dl') || streamUrl;
 
-        if (movieTitle) {
-            const decodedTitle = decodeURIComponent(movieTitle);
-            document.getElementById('movie-title').innerText = "Title: " + decodedTitle;
-            document.getElementById('page-title').innerText = decodedTitle + " - HelaFlix";
-        } else {
-            document.getElementById('movie-title').innerText = "Title: Movie File.mp4";
-        }
+    document.getElementById('fileTitle').innerText = title;
+    document.getElementById('fileSize').innerText = size;
+    document.getElementById('fileRes').innerText = res;
+    document.getElementById('btnDownload').href = dlUrl;
 
-        function copyLink() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Link Copied to Clipboard!");
-        }
-    </script>
+    if (streamUrl) {
+      const player = document.getElementById('videoPlayer');
+      const source = document.getElementById('videoSource');
+      // If direct stream URL
+      source.src = streamUrl;
+      player.load();
+    }
+
+    function copyDownloadLink() {
+      const finalLink = dlUrl || window.location.href;
+      navigator.clipboard.writeText(finalLink).then(() => {
+        alert("✅ Download Link එක සාර්ථකව Copy විය!");
+      });
+    }
+  </script>
 
 </body>
 </html>
