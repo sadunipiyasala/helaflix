@@ -37,7 +37,7 @@
     }
     .brand-logo span { color: #e50914; }
 
-    /* THEATER MAIN CONTAINER */
+    /* THEATER CONTAINER */
     .theater-container {
       max-width: 1100px;
       width: 95%;
@@ -48,7 +48,7 @@
       flex: 1;
     }
 
-    /* 1. YOUTUBE-STYLE WIDESCREEN PLAYER (16:9) */
+    /* 1. YOUTUBE WIDESCREEN PLAYER */
     .theater-player-box {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -87,6 +87,21 @@
       flex-direction: column;
       gap: 8px;
     }
+    
+    /* SINHALA DUBBED RED BADGE */
+    .badge-dub-red {
+      display: inline-block;
+      background: #e50914;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 5px;
+      width: fit-content;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(229, 9, 20, 0.4);
+    }
+
     .theater-title {
       font-size: 20px;
       font-weight: 800;
@@ -141,7 +156,7 @@
     }
     .btn-gray-copy:hover { background: #323244; transform: translateY(-2px); }
 
-    /* 3. TELEGRAM PROMO BANNER */
+    /* 3. TELEGRAM PROMO CARD */
     .theater-tg-card {
       display: flex;
       justify-content: space-between;
@@ -205,13 +220,12 @@
   <div class="theater-container">
 
     <!-- 1. VIDEO PLAYER BOX -->
-    <div class="theater-player-box" id="playerBox">
-      <!-- Player Auto Loaded -->
-    </div>
+    <div class="theater-player-box" id="playerBox"></div>
 
     <!-- 2. DETAILS & DOWNLOAD ACTIONS -->
     <div class="theater-info-bar">
       <div class="theater-meta">
+        <span class="badge-dub-red">සිංහල හඬකැවූ</span>
         <h1 class="theater-title" id="fileTitle">Movie Title Loading...</h1>
         <div class="theater-specs">
           <span class="spec-pill">📦 <b id="fileSize">-- MB</b></span>
@@ -245,48 +259,29 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- 100% ROBUST UNICODE & DRIVE ID SCRIPT -->
   <script>
-    // Robust URL Decoder function
-    function getCleanParam(name) {
-      const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
-      const results = regex.exec(window.location.href);
-      if (!results || !results[2]) return '';
-      try {
-        return decodeURIComponent(results[2].replace(/\+/g, ' '));
-      } catch (e) {
-        return unescape(results[2].replace(/\+/g, ' '));
-      }
-    }
+    const searchParams = new URLSearchParams(window.location.search);
 
-    // 1. Get Drive File ID strictly
-    let fileId = getCleanParam('id');
-    if (!fileId) {
-      const match = window.location.href.match(/id=([a-zA-Z0-9_-]+)/);
-      if (match) fileId = match[1];
-    }
+    let fileId = searchParams.get('id') || '1Y5cQ_rkLTdXlciLytEr9Kdsu2lpYz3lX';
+    let rawTitle = searchParams.get('title') || 'Wolfblood Season 01 Episode 01';
+    let rawSize = searchParams.get('size') || '296 MB';
+    let rawRes = searchParams.get('res') || '720p HD';
 
-    // 2. Get Sinhala Title & Specs safely
-    let titleText = getCleanParam('title') || 'Movie Stream';
-    let sizeText = getCleanParam('size') || '296 MB';
-    let resText = getCleanParam('res') || '720p HD';
+    // Decode Title cleanly
+    document.getElementById('fileTitle').innerText = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
+    document.getElementById('fileSize').innerText = decodeURIComponent(rawSize.replace(/\+/g, ' '));
+    document.getElementById('fileRes').innerText = decodeURIComponent(rawRes.replace(/\+/g, ' '));
 
-    document.getElementById('fileTitle').innerText = titleText;
-    document.getElementById('fileSize').innerText = sizeText;
-    document.getElementById('fileRes').innerText = resText;
+    // Google Drive Player Injection
+    document.getElementById('playerBox').innerHTML = `
+      <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+    `;
 
-    // 3. Inject Google Drive Player
-    if (fileId) {
-      document.getElementById('playerBox').innerHTML = `
-        <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      `;
-      const directDl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
-      document.getElementById('btnDownload').href = directDl;
-    }
+    const directDl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
+    document.getElementById('btnDownload').href = directDl;
 
     function copyDownloadLink() {
-      const dl = document.getElementById('btnDownload').href;
-      navigator.clipboard.writeText(dl).then(() => alert("✅ Direct Download Link එක Copy විය!"));
+      navigator.clipboard.writeText(directDl).then(() => alert("✅ Direct Download Link එක Copy විය!"));
     }
   </script>
 
