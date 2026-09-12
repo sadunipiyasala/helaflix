@@ -48,7 +48,7 @@
       flex: 1;
     }
 
-    /* 1. YOUTUBE WIDESCREEN PLAYER */
+    /* 1. UNIVERSAL WIDESCREEN 16:9 PLAYER */
     .theater-player-box {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -61,7 +61,8 @@
       align-items: center;
       justify-content: center;
     }
-    .theater-player-box iframe {
+    .theater-player-box iframe,
+    .theater-player-box video {
       width: 100%;
       height: 100%;
       border: none;
@@ -88,7 +89,6 @@
       gap: 8px;
     }
     
-    /* SINHALA DUBBED RED BADGE */
     .badge-dub-red {
       display: inline-block;
       background: #e50914;
@@ -219,7 +219,7 @@
 
   <div class="theater-container">
 
-    <!-- 1. VIDEO PLAYER BOX -->
+    <!-- 1. UNIVERSAL PLAYER BOX -->
     <div class="theater-player-box" id="playerBox"></div>
 
     <!-- 2. DETAILS & DOWNLOAD ACTIONS -->
@@ -259,29 +259,62 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
+  <!-- UNIVERSAL STREAM ENGINE SCRIPT (DRIVE + DAILYMOTION + DIRECT) -->
   <script>
     const searchParams = new URLSearchParams(window.location.search);
 
-    let fileId = searchParams.get('id') || '1Y5cQ_rkLTdXlciLytEr9Kdsu2lpYz3lX';
-    let rawTitle = searchParams.get('title') || 'Wolfblood Season 01 Episode 01';
-    let rawSize = searchParams.get('size') || '296 MB';
+    let rawInput = searchParams.get('id') || searchParams.get('stream') || '';
+    let rawTitle = searchParams.get('title') || 'Movie Stream';
+    let rawSize = searchParams.get('size') || '750 MB';
     let rawRes = searchParams.get('res') || '720p HD';
+    let dlParam = searchParams.get('dl') || '';
 
-    // Decode Title cleanly
+    // Clean Decode
     document.getElementById('fileTitle').innerText = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
     document.getElementById('fileSize').innerText = decodeURIComponent(rawSize.replace(/\+/g, ' '));
     document.getElementById('fileRes').innerText = decodeURIComponent(rawRes.replace(/\+/g, ' '));
 
-    // Google Drive Player Injection
-    document.getElementById('playerBox').innerHTML = `
-      <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
-    `;
+    const playerBox = document.getElementById('playerBox');
+    let downloadUrl = dlParam;
 
-    const directDl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
-    document.getElementById('btnDownload').href = directDl;
+    // 1. CHECK IF DAILYMOTION VIDEO
+    if (rawInput.includes('dailymotion.com') || rawInput.includes('dai.ly') || rawInput.startsWith('x')) {
+      let dmId = rawInput;
+      let match = rawInput.match(/video\/([a-zA-Z0-9]+)/) || rawInput.match(/dai\.ly\/([a-zA-Z0-9]+)/);
+      if (match) dmId = match[1];
+      
+      // Embed Dailymotion High Speed Player
+      playerBox.innerHTML = `
+        <iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      `;
+      if (!downloadUrl) downloadUrl = `https://www.dailymotion.com/video/${dmId}`;
+    }
+    // 2. CHECK IF GOOGLE DRIVE VIDEO
+    else if (rawInput.includes('drive.google.com') || rawInput.match(/[-\w]{25,}/)) {
+      let driveMatch = rawInput.match(/[-\w]{25,}/);
+      let fileId = driveMatch ? driveMatch[0] : rawInput;
+
+      playerBox.innerHTML = `
+        <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
+      `;
+      if (!downloadUrl) downloadUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
+    }
+    // 3. DIRECT MP4 / STREAM URL
+    else if (rawInput) {
+      playerBox.innerHTML = `
+        <video controls preload="metadata" style="width:100%; height:100%;">
+          <source src="${rawInput}" type="video/mp4" />
+        </video>
+      `;
+      if (!downloadUrl) downloadUrl = rawInput;
+    } else {
+      playerBox.innerHTML = `<div style="color:#777;">No video source found.</div>`;
+    }
+
+    document.getElementById('btnDownload').href = downloadUrl;
 
     function copyDownloadLink() {
-      navigator.clipboard.writeText(directDl).then(() => alert("✅ Direct Download Link එක Copy විය!"));
+      navigator.clipboard.writeText(downloadUrl).then(() => alert("✅ Link එක Copy විය!"));
     }
   </script>
 
