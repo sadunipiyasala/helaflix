@@ -8,10 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
 
-  <!-- ================= 1. ADSTERRA POPUNDER SCRIPT ================= -->
+  <!-- ================= ADSTERRA POPUNDER & SOCIAL BAR ================= -->
   <script src="https://pl31445725.profitableratecpmnetwork.com/2e/0f/41/2e0f4196bd6b12ad85a5dff1bcd035ae.js"></script>
-
-  <!-- ================= 2. ADSTERRA SOCIAL BAR SCRIPT ================= -->
   <script src="https://pl31445723.profitableratecpmnetwork.com/ce/86/93/ce8693146c0ba040e9242c3da6f729cf.js"></script>
 
   <style>
@@ -54,7 +52,7 @@
       flex: 1;
     }
 
-    /* AD DISCLAIMER PRO-TIP BAR */
+    /* AD PRO-TIP NOTICE */
     .ad-tip-notice {
       background: #191404;
       border: 1px solid #4d3a08;
@@ -77,7 +75,7 @@
       min-height: 50px;
     }
 
-    /* 1. UNIVERSAL 16:9 WIDESCREEN PLAYER */
+    /* 1. UNIVERSAL WIDESCREEN PLAYER */
     .theater-player-box {
       position: relative;
       width: 100%;
@@ -250,13 +248,13 @@
 
   <div class="theater-container">
 
-    <!-- AD DISCLAIMER NOTICE -->
+    <!-- AD PRO-TIP NOTICE -->
     <div class="ad-tip-notice">
       <i class="fa-solid fa-lightbulb"></i>
       <span><b>PRO TIP:</b> වීඩියෝව Play කරද්දී වෙනත් Ad එකක් Open වුවහොත්, කලබල නොවී ඔබේ දුරකතනයේ <b>BACK (ᐊ)</b> ඔබා ආපසු පැමිණෙන්න.</span>
     </div>
 
-    <!-- 🏷️ 3. ADSTERRA TOP BANNER (468x60) -->
+    <!-- ADSTERRA TOP BANNER (468x60) -->
     <div class="ad-stream-slot">
       <script>
         atOptions = {
@@ -270,10 +268,10 @@
       <script src="https://www.highrevenueformat.com/7b6d6cbd875800404467f4977d23eaea/invoke.js"></script>
     </div>
 
-    <!-- UNIVERSAL VIDEO PLAYER BOX -->
+    <!-- 1. VIDEO PLAYER BOX -->
     <div class="theater-player-box" id="playerBox"></div>
 
-    <!-- DETAILS & DOWNLOAD ACTIONS -->
+    <!-- 2. DETAILS & DOWNLOAD ACTIONS -->
     <div class="theater-info-bar">
       <div class="theater-meta">
         <span class="badge-dub-red">සිංහල</span>
@@ -285,6 +283,7 @@
       </div>
 
       <div class="theater-actions">
+        <!-- DYNAMIC DOWNLOAD BUTTON -->
         <a href="#" id="btnDownload" class="btn-action btn-blue-dl" target="_blank">
           <i class="fa-solid fa-download"></i> Download
         </a>
@@ -294,7 +293,7 @@
       </div>
     </div>
 
-    <!-- 🏷️ 4. ADSTERRA BOTTOM BANNER (300x250) -->
+    <!-- ADSTERRA BOTTOM BANNER (300x250) -->
     <div class="ad-stream-slot">
       <script>
         atOptions = {
@@ -308,7 +307,7 @@
       <script src="https://www.highrevenueformat.com/deeff6c6ef75b1e688a3a8e967fcca69/invoke.js"></script>
     </div>
 
-    <!-- TELEGRAM PROMO CARD -->
+    <!-- 3. TELEGRAM PROMO CARD -->
     <div class="theater-tg-card">
       <div class="tg-text">
         🥰 තවත් මේ වගේම මූවීස් බලන්න අපේ telegram channel එකට join වෙන්න
@@ -324,7 +323,7 @@
     <p>&#169; HELAFLIX - High Speed Cloud Streaming &amp; Download Portal.</p>
   </footer>
 
-  <!-- SMART AUTO-EXTRACT SCRIPT -->
+  <!-- SMART PLAYER & CUSTOM DOWNLOAD LINK SCRIPT -->
   <script>
     const searchParams = new URLSearchParams(window.location.search);
 
@@ -332,14 +331,14 @@
     let rawTitle = searchParams.get('title') || 'Movie Stream';
     let rawSize = searchParams.get('size') || '750 MB';
     let rawRes = searchParams.get('res') || '720p HD';
-    let dlParam = searchParams.get('dl') || '';
+    let customDl = searchParams.get('dl') || ''; // CUSTOM DOWNLOAD LINK
 
     document.getElementById('fileTitle').innerText = decodeURIComponent(rawTitle.replace(/\+/g, ' '));
     document.getElementById('fileSize').innerText = decodeURIComponent(rawSize.replace(/\+/g, ' '));
     document.getElementById('fileRes').innerText = decodeURIComponent(rawRes.replace(/\+/g, ' '));
 
     const playerBox = document.getElementById('playerBox');
-    let downloadUrl = dlParam;
+    let finalDownloadUrl = customDl ? decodeURIComponent(customDl) : '';
 
     // 1. BILIBILI
     if (rawInput.includes('bilibili.com') || rawInput.includes('bilibili.tv') || rawInput.includes('BV') || rawInput.startsWith('BV')) {
@@ -348,7 +347,7 @@
       playerBox.innerHTML = `
         <iframe src="//player.bilibili.com/player.html?bvid=${bvid}&page=1&autoplay=0" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>
       `;
-      if (!downloadUrl) downloadUrl = `https://www.bilibili.com/video/${bvid}`;
+      if (!finalDownloadUrl) finalDownloadUrl = `https://www.bilibili.com/video/${bvid}`;
     }
     // 2. DAILYMOTION
     else if (rawInput.includes('dailymotion.com') || rawInput.includes('dai.ly') || rawInput.startsWith('x')) {
@@ -357,17 +356,19 @@
       playerBox.innerHTML = `
         <iframe src="https://www.dailymotion.com/embed/video/${dmId}?autoplay=0" allow="autoplay; fullscreen" allowfullscreen></iframe>
       `;
-      if (!downloadUrl) downloadUrl = `https://www.dailymotion.com/video/${dmId}`;
+      if (!finalDownloadUrl) finalDownloadUrl = `https://www.dailymotion.com/video/${dmId}`;
     }
     // 3. GOOGLE DRIVE
     else if (rawInput.includes('drive.google.com') || rawInput.match(/[-\w]{25,}/)) {
       let driveMatch = rawInput.match(/[-\w]{25,}/);
       let fileId = driveMatch ? driveMatch[0] : rawInput;
-
       playerBox.innerHTML = `
         <iframe src="https://drive.google.com/file/d/${fileId}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>
       `;
-      if (!downloadUrl) downloadUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
+      // If no custom &dl= is provided, fallback to Drive download
+      if (!finalDownloadUrl) {
+        finalDownloadUrl = `https://drive.usercontent.google.com/download?id=${fileId}&export=download&authuser=0`;
+      }
     }
     // 4. DIRECT MP4
     else if (rawInput) {
@@ -376,15 +377,16 @@
           <source src="${rawInput}" type="video/mp4" />
         </video>
       `;
-      if (!downloadUrl) downloadUrl = rawInput;
+      if (!finalDownloadUrl) finalDownloadUrl = rawInput;
     } else {
       playerBox.innerHTML = `<div style="color:#777;">No video source found.</div>`;
     }
 
-    document.getElementById('btnDownload').href = downloadUrl;
+    // Assign final download button URL
+    document.getElementById('btnDownload').href = finalDownloadUrl;
 
     function copyDownloadLink() {
-      navigator.clipboard.writeText(downloadUrl).then(() => alert("✅ Link එක Copy විය!"));
+      navigator.clipboard.writeText(finalDownloadUrl).then(() => alert("✅ Download Link එක Copy විය!"));
     }
   </script>
 
